@@ -5,9 +5,12 @@
         </header>
         <main class="main">
             <div class="md-checkbox" v-on:keydown.space="onChange">
-                <div>
-                    <input id="i1" type="checkbox" v-on:click="onClick" v-bind:checked="checkedValue" v-bind:disabled="inputDisabled">
-                    <label for="i1" disabled="inputDisabled">Checkbox</label>
+                <div v-bind:class="[checkedValue ? 'container-enabled' : 'container-checked']">
+                    <div id="press-checkbox">
+                        <input id="i1" type="checkbox" v-on:click="onClick" v-bind:checked="checkedValue"
+                               v-bind:disabled="inputDisabled">
+                        <label for="i1" disabled="inputDisabled"></label>
+                    </div>
                 </div>
             </div>
             <div>
@@ -28,22 +31,23 @@
             return {
                 checkedValue: false,
                 inputDisabled: false,
+                checkedKeyboard: false,
             };
         },
         methods: {
             onClick: function () {
                 this.checkedValue = !this.checkedValue;
-                console.log(this.checkedValue)
             },
             onDisabledClick: function () {
                 this.inputDisabled = !this.inputDisabled;
-                console.log(this.inputDisabled)
             }
         },
         created() {
             document.addEventListener('keydown', ev => {
                 if (ev.code === 'Space' || ev.code === 'Tab') {
-                    this.onClick()
+                    let clickClass = document.getElementById('press-checkbox');
+                    clickClass.classList.add('press-checked-on');
+                    this.onClick();
                 }
             });
         },
@@ -53,12 +57,18 @@
 
 <style lang="scss">
 
+    .firstPage {
+        display: flex;
+        flex-direction: column;
+    }
+
     .main {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 100vw;
+        width: 100%;
+        height: 200px;
     }
 
     $md-checkbox-checked-color: rgb(51, 122, 183);
@@ -74,6 +84,7 @@
     $md-checkmark-width: 0.125em;
     $md-checkmark-color: #fff;
     $md-checkbox-label-padding: .75em;
+    $md-checkbox-status: silver;
 
     .md-checkbox {
         position: relative;
@@ -128,6 +139,7 @@
             float: left;
             font-size: inherit;
 
+
             &:checked {
                 + label:before {
                     background: $md-checkbox-checked-color;
@@ -144,6 +156,7 @@
                     border-right-style: none;
                 }
             }
+
             &:disabled {
                 + label:before {
                     border-color: $md-checkbox-border-color-disabled;
@@ -159,6 +172,154 @@
 
     }
 
+    .container-checked {
+
+        &:before, &:after {
+            content: "";
+            position: absolute;
+        }
+
+        &:hover {
+            &:before {
+                top: -(1.5em - $md-checkbox-size / 2);
+                left: -(1.5em - $md-checkbox-size / 2);
+                width: 3em;
+                height: 3em;
+                background: silver;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: background .3s;
+            }
+        }
+
+
+        &:after {
+            // checkmark
+        }
+
+        input[type="checkbox"] {
+            outline: 0;
+            visibility: hidden;
+            margin: 0;
+            display: block;
+            float: left;
+            font-size: inherit;
+
+
+            &:checked {
+                + label:before {
+                    background: $md-checkbox-checked-color;
+                    border: none;
+                }
+
+                + label:after {
+                    $md-checkmark-size: $md-checkbox-size - 2 * $md-checkbox-padding;
+                    transform: translate($md-checkbox-padding, ($md-checkbox-size / 2) - ($md-checkmark-size / 2.6)) rotate(-45deg);
+                    width: $md-checkmark-size;
+                    height: $md-checkmark-size / 2;
+                    border: $md-checkmark-width solid $md-checkmark-color;
+                    border-top-style: none;
+                    border-right-style: none;
+                }
+            }
+
+            &:disabled {
+                + label:before {
+                    border-color: $md-checkbox-border-color-disabled;
+                }
+
+                &:checked {
+                    + label:before {
+                        background: $md-checkbox-checked-color-disabled;
+                    }
+                }
+            }
+        }
+    }
+
+    .container-enabled {
+
+        &:before, &:after {
+            content: "";
+            position: absolute;
+        }
+
+        &:hover {
+            &:before {
+                top: -(1.5em - $md-checkbox-size / 2);
+                left: -(1.5em - $md-checkbox-size / 2);
+                width: 3em;
+                height: 3em;
+                background: lightblue;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: background .3s;
+            }
+        }
+
+
+        &:after {
+            // checkmark
+        }
+
+        input[type="checkbox"] {
+            outline: 0;
+            visibility: hidden;
+            margin: 0;
+            display: block;
+            float: left;
+            font-size: inherit;
+
+
+            &:checked {
+                + label:before {
+                    background: $md-checkbox-checked-color;
+                    border: none;
+                }
+
+                + label:after {
+                    $md-checkmark-size: $md-checkbox-size - 2 * $md-checkbox-padding;
+                    transform: translate($md-checkbox-padding, ($md-checkbox-size / 2) - ($md-checkmark-size / 2.6)) rotate(-45deg);
+                    width: $md-checkmark-size;
+                    height: $md-checkmark-size / 2;
+                    border: $md-checkmark-width solid $md-checkmark-color;
+                    border-top-style: none;
+                    border-right-style: none;
+                }
+            }
+
+            &:disabled {
+                + label:before {
+                    border-color: $md-checkbox-border-color-disabled;
+                }
+
+                &:checked {
+                    + label:before {
+                        background: $md-checkbox-checked-color-disabled;
+                    }
+                }
+            }
+        }
+    }
+
+    .press-checked-on {
+        width: 3em;
+        height: 3em;
+        background: silver;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background .3s;
+    }
+
+    .press-checked-off {
+        width: 3em;
+        height: 3em;
+        background: lightblue;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background .3s;
+    }
+
     // *************************************
 
     // *************************************
@@ -167,9 +328,7 @@
     }
 
     body {
-        background: #f0f0f0;
         position: absolute;
-        width: 100%;
         padding: 0;
         margin: 0;
         font-family: "Roboto", sans-serif;

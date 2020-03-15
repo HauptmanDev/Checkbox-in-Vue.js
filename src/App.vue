@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <PageCheckbox msg="Welcome to My first Vue.js App"/>
+        <PageCheckbox msg="Vue.js"/>
     </div>
 </template>
 
@@ -18,10 +18,7 @@
 <style>
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #2c3e50;
-        margin-top: 60px;
+        overflow: hidden;
     }
 </style>
