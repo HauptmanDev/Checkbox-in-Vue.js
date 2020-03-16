@@ -45,8 +45,6 @@
         created() {
             document.addEventListener('keydown', ev => {
                 if (ev.code === 'Space' || ev.code === 'Tab') {
-                    let clickClass = document.getElementById('press-checkbox');
-                    clickClass.classList.add('press-checked-on');
                     this.onClick();
                 }
             });
@@ -300,24 +298,6 @@
                 }
             }
         }
-    }
-
-    .press-checked-on {
-        width: 3em;
-        height: 3em;
-        background: silver;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background .3s;
-    }
-
-    .press-checked-off {
-        width: 3em;
-        height: 3em;
-        background: lightblue;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background .3s;
     }
 
     // *************************************
